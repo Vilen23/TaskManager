@@ -8,9 +8,14 @@ import { hashedpass } from "./passhash";
 export const signup = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const {username,email,password} = req.body;
+        const find = await User.findOne({$or:[{email},{username}]})
+        if(find){
+            res.status(400).json({message: "User Already Exists"});
+            return;
+        }
         const isValid = await signupvalid.safeParse(req.body);
         if(!isValid){
-            next(errorHandler(400, "Invalid Input"));
+            res.status(400).json({message: "Invalid Input"}); 
             return;
         }
         const hashpass = await hashedpass(password);

@@ -3,9 +3,20 @@ import { configDotenv } from "dotenv";
 configDotenv();
 mongoose.connect("mongodb+srv://Shivam:itsbeens0long@cluster0.ezyirm3.mongodb.net/TaskManager")
 const userSchema = new mongoose.Schema({
-    username: String,
-    email: String,
-    password: String,
+    username:{
+        type: String,
+        required: true,
+        unique: true,
+    },
+    email: {
+        type: String,
+        required: true,
+        unique: true,
+    },
+    password: {
+        type: String,
+        required: true,
+    },
 })
 
 const todoScheam = new mongoose.Schema({

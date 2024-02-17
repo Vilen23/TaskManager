@@ -9,9 +9,20 @@ const dotenv_1 = require("dotenv");
 (0, dotenv_1.configDotenv)();
 mongoose_1.default.connect("mongodb+srv://Shivam:itsbeens0long@cluster0.ezyirm3.mongodb.net/TaskManager");
 const userSchema = new mongoose_1.default.Schema({
-    username: String,
-    email: String,
-    password: String,
+    username: {
+        type: String,
+        required: true,
+        unique: true,
+    },
+    email: {
+        type: String,
+        required: true,
+        unique: true,
+    },
+    password: {
+        type: String,
+        required: true,
+    },
 });
 const todoScheam = new mongoose_1.default.Schema({
     title: String,

@@ -5,6 +5,7 @@ import { useRecoilState } from "recoil";
 import { userAtom } from "../states/UserAtom";
 import axios from "axios";
 import { Loading } from "../components/Spinner";
+import { Alert } from "flowbite-react";
 
 function Signup() {
   const navigate = useNavigate();
@@ -21,21 +22,31 @@ function Signup() {
         return;
       }
       const response = await axios.post("http://localhost:3000/api/auth/signup",user)
-      console.log(response.data);
       if(response.status === 201){
         setLoading(false)
         navigate('/signin')
-      }else{
-        setError("Something went wrong")
+      }else if(response.status === 400){
+        console.log("iskimaka");
+        
+        setError("User Already Exists");
         setLoading(false)
       }
     } catch (error) {
-      setError("Something went wrong")
+      setLoading(false)
+      if ((error as any).response && (error as any).response.status === 400) {
+        setError("User Already Exists");
+      } else {
+        setError("Something went wrong")
+      }
     }
   }
   return (
     <div>
-      <div className="flex justify-center items-center h-[90vh]">
+      <div className="flex flex-col justify-center items-center h-[90vh]">
+      {
+        error && <Alert color='red' className="mb-5 w-[400px] ">
+          {error}</Alert>
+      }
         <div className="bg-white p-8 rounded-lg shadow-lg w-[400px]">
           <h1 className="text-4xl font-bold text-center">Sign Up</h1>
           <div className="relative mt-5 ">
@@ -46,6 +57,9 @@ function Signup() {
               placeholder=" "
             onChange={(e)=>{
               setUser({...user,email:e.target.value})
+            }}
+            onClick={()=>{
+              setError("")
             }}/>
             <label
               htmlFor="email"
@@ -62,6 +76,9 @@ function Signup() {
               placeholder=" "
             onChange={(e)=>{
               setUser({...user,username:e.target.value})
+            }}
+            onClick={()=>{
+              setError("")
             }}/>
             <label
               htmlFor="username"
@@ -78,6 +95,9 @@ function Signup() {
               placeholder=" "
             onChange={(e)=>{
               setUser({...user,password:e.target.value})
+            }}
+            onClick={()=>{
+              setError("")
             }}/>
             <label
               htmlFor="password"
@@ -89,7 +109,7 @@ function Signup() {
           <div className="mt-5">
             <button className="w-full py-2.5 px-4 bg-[#F5D565] text-slate-700 font-semibold rounded-lg hover:shadow-lg duration-300"
             onClick={HandleSignup}>
-              Sign Up
+              {loading?<Loading/>:"Sign Up"}
             </button>
           </div>
           <div>
@@ -97,7 +117,7 @@ function Signup() {
               Already have an account?{" "}
               <span onClick={()=>{
                 navigate('/signin')
-              }} className="text-blue-600 cursor-pointer signInHover">{loading?<Loading/>:"Sign In"}</span>            </p>
+              }} className="text-blue-600 cursor-pointer signInHover">Sign In</span>            </p>
           </div>
         </div>
       </div>

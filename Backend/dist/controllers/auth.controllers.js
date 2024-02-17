@@ -14,15 +14,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.signup = void 0;
 const user_model_1 = require("../models/user_model");
-const error_1 = require("../utils/error");
 const signupvalid_1 = __importDefault(require("../Validation/signupvalid"));
 const passhash_1 = require("./passhash");
 const signup = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { username, email, password } = req.body;
+        const find = yield user_model_1.User.findOne({ $or: [{ email }, { username }] });
+        if (find) {
+            res.status(400).json({ message: "User Already Exists" });
+            return;
+        }
         const isValid = yield signupvalid_1.default.safeParse(req.body);
         if (!isValid) {
-            next((0, error_1.errorHandler)(400, "Invalid Input"));
+            res.status(400).json({ message: "Invalid Input" });
             return;
         }
         const hashpass = yield (0, passhash_1.hashedpass)(password);
