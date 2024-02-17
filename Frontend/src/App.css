@@ -1,0 +1,5 @@
+/* App.css */
+.signInHover:hover {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
