@@ -5,9 +5,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = exports.Todo = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
+const dotenv_1 = require("dotenv");
+(0, dotenv_1.configDotenv)();
 mongoose_1.default.connect("mongodb+srv://Shivam:itsbeens0long@cluster0.ezyirm3.mongodb.net/TaskManager");
 const userSchema = new mongoose_1.default.Schema({
-    name: String,
+    username: String,
     email: String,
     password: String,
 });

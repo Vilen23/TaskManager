@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
-mongoose.connect("")
-
+import { configDotenv } from "dotenv";
+configDotenv();
+mongoose.connect("mongodb+srv://Shivam:itsbeens0long@cluster0.ezyirm3.mongodb.net/TaskManager")
 const userSchema = new mongoose.Schema({
-    name: String,
+    username: String,
     email: String,
     password: String,
 })

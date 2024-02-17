@@ -19,7 +19,7 @@ const signupvalid_1 = __importDefault(require("../Validation/signupvalid"));
 const passhash_1 = require("./passhash");
 const signup = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { name, email, password } = req.body;
+        const { username, email, password } = req.body;
         const isValid = yield signupvalid_1.default.safeParse(req.body);
         if (!isValid) {
             next((0, error_1.errorHandler)(400, "Invalid Input"));
@@ -27,7 +27,7 @@ const signup = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
         }
         const hashpass = yield (0, passhash_1.hashedpass)(password);
         const user = new user_model_1.User({
-            name,
+            username,
             email,
             password: hashpass
         });

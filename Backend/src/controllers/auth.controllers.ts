@@ -7,7 +7,7 @@ import { hashedpass } from "./passhash";
 
 export const signup = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const {name,email,password} = req.body;
+        const {username,email,password} = req.body;
         const isValid = await signupvalid.safeParse(req.body);
         if(!isValid){
             next(errorHandler(400, "Invalid Input"));
@@ -15,7 +15,7 @@ export const signup = async (req: Request, res: Response, next: NextFunction) =>
         }
         const hashpass = await hashedpass(password);
         const user = new User({
-            name,
+            username,
             email,
             password: hashpass
         })
