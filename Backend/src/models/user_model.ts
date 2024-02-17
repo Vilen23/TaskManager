@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-mongoose.connect("mongodb+srv://Shivam:itsbeens0long@cluster0.ezyirm3.mongodb.net/TaskManager")
+mongoose.connect("")
 
 const userSchema = new mongoose.Schema({
     name: String,
